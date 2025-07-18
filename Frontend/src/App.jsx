@@ -10,19 +10,25 @@ import './App.css'
 
 function App() {
   const [ count, setCount ] = useState(0)
-  const [ code, setCode ] = useState(` function sum() {
-  return 1 + 1
+  const [ code, setCode ] = useState(` function uncleKoNamesteBolo() {
+    print "nameste uncle!"
 }`)
 
-  const [ review, setReview ] = useState(``)
+  const [ review, setReview ] = useState(`<--- code not submitted yet!`)
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     prism.highlightAll()
   }, [])
 
   async function reviewCode() {
-    const response = await axios.post('http://localhost:3000/ai/get-review', { code })
-    setReview(response.data)
+    setLoading(true)
+    try {
+      const response = await axios.post('http://localhost:3000/ai/get-review', { code })
+      setReview(response.data)
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -49,12 +55,14 @@ function App() {
             onClick={reviewCode}
             className="review">Review</div>
         </div>
-        <div className="right">
-          <Markdown
-
-            rehypePlugins={[ rehypeHighlight ]}
-
-          >{review}</Markdown>
+        <div className="right" style={{ position: 'relative', minHeight: '100px' }}>
+          {loading ? (
+            <div className="spinner-container">
+              <div className="spinner"></div>
+            </div>
+          ) : (
+            <Markdown rehypePlugins={[ rehypeHighlight ]}>{review}</Markdown>
+          )}
         </div>
       </main>
     </>
