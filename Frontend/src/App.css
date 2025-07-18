@@ -28,19 +28,10 @@ main .right {
 
 main .left {
   background-color: #000000;
- position: relative;
+  position: relative;
 }
 
-
-  .left .code {
-    height: auto;
-    min-height: 100%;
-    overflow: auto;
-  }
-  
-
-
-
+.left .code,
 .code pre,
 .code pre code {
   height: 100%;
@@ -48,7 +39,6 @@ main .left {
   margin: 0;
   border-radius: 0.7rem;
   background-color: #0c0c0c;
-  
 }
 
 main .left .review {
@@ -71,16 +61,3 @@ main .right {
   font-size: 1.5rem;
   overflow: auto;
 }
-
-.code pre,
-.code pre code {
-  white-space: pre-wrap;
-  word-break: break-word;
-}
-
-.left .code {
-  overflow: auto;
-}
-
-
-

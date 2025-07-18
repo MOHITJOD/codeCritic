@@ -9,25 +9,20 @@ import axios from 'axios'
 import './App.css'
 
 function App() {
-  const [ code, setCode ] = useState(` function sayHello() {
-  return "hello World"
+  const [ count, setCount ] = useState(0)
+  const [ code, setCode ] = useState(` function sum() {
+  return 1 + 1
 }`)
 
-  const [ review, setReview ] = useState("<--- not submitted anything yet!")
-  const [ loading, setLoading ] = useState(false)
+  const [ review, setReview ] = useState(``)
 
   useEffect(() => {
     prism.highlightAll()
   }, [])
 
   async function reviewCode() {
-    setLoading(true)
-    try {
-      const response = await axios.post('http://localhost:3000/ai/get-review', { code })
-      setReview(response.data)
-    } finally {
-      setLoading(false)
-    }
+    const response = await axios.post('http://localhost:3000/ai/get-review', { code })
+    setReview(response.data)
   }
 
   return (
@@ -48,12 +43,6 @@ function App() {
                 height: "100%",
                 width: "100%"
               }}
-              onKeyDown={e => {
-                if (e.key === "Enter") {
-                  e.preventDefault();
-                  reviewCode();
-                }
-              }}
             />
           </div>
           <div
@@ -61,13 +50,11 @@ function App() {
             className="review">Review</div>
         </div>
         <div className="right">
-          {loading ? (
-            <div className="loading-indicator">Loading review...</div>
-          ) : (
-            <Markdown
-              rehypePlugins={[ rehypeHighlight ]}
-            >{review}</Markdown>
-          )}
+          <Markdown
+
+            rehypePlugins={[ rehypeHighlight ]}
+
+          >{review}</Markdown>
         </div>
       </main>
     </>
